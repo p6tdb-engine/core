@@ -1,0 +1,17 @@
+{
+    "database": {
+        "kind": "oracle",
+        "tables": [
+            {
+                "table" : {
+                    "name": "monthly_savings", 
+                    "fields": [
+                        {"field": "name", "dataType": "string", "size" : 255},
+                        {"field": "supplier_id", "dataType": "integer", "size": 10},
+                        {"field": "price", "dataType": "numeric"}
+                    ]
+                } 
+            }
+        ]
+    }
+}
