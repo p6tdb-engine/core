@@ -1,18 +1,23 @@
----
 database:
   kind: oracle
   schema:
-    name: teste
-    - table:
-      name: monthly_savings
-      fields:
-      - field: name
-        dataType: string
-        size: 255
-      - field: supplier_id
-        dataType: integer
-        size: 10
-      - field: price
-        dataType: numeric
-        size: 0
-    
+    name: db02
+    tables:
+      - table:
+          name: monthly_savings
+          fields:
+            - field:
+                name: name
+                dataType: string
+            - field:
+                name: price
+                dataType: numeric
+      - table:
+          name: day_savings
+          fields:
+            - field:
+                name: name
+                dataType: string
+            - field:
+                name: price
+                dataType: numeric

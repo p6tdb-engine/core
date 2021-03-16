@@ -1,7 +1,6 @@
 package model
 
-type Filed struct {
-	Field    string `yaml:"field"`
+type Field struct {
+	Name     string `yaml:"name"`
 	DataType string `yaml:"dataType"`
-	Size     int    `yaml:"size"`
 }

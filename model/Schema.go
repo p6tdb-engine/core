@@ -2,6 +2,8 @@ package model
 
 // Database
 type Schema struct {
-	Tables []Table
 	Name   string
+	Tables []struct {
+		Table Table
+	} `yaml:"tables"`
 }
