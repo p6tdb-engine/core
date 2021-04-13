@@ -1,6 +1,9 @@
 package model
 
-type Field struct {
-	Name     string `yaml:"name"`
-	DataType string `yaml:"dataType"`
+// Fields
+type Fields struct {
+	Nullabel    bool   `yaml:"nullabel"`
+	Name        string `yaml:"name"`
+	Type        string `yaml:"type"`
+	Description string `yaml:"description"`
 }

@@ -1,8 +1,7 @@
 package model
 
-type Table struct {
-	Name   string `yaml:"name"`
-	Fields []struct {
-		Field Field
-	} `yaml:"fields"`
+// Tables
+type Tables struct {
+	Name   string   `yaml:"name"`
+	Fields []Fields `yaml:"fields"`
 }

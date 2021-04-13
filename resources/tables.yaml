@@ -1,23 +1,31 @@
 database:
-  kind: oracle
+  kind: postgresql
   schema:
     name: db02
     tables:
       - table:
-          name: monthly_savings
-          fields:
-            - field:
-                name: name
-                dataType: string
-            - field:
-                name: price
-                dataType: numeric
+        name: person
+        fields:
+          - name: name
+            type: string
+            description: Some name
+            nullabel: true
+          - name: age
+            type: int
+            description: Age Person
+            nullabel: true
+          - name: person_id
+            type: int
+            description: PK
+            nullabel: true
       - table:
-          name: day_savings
-          fields:
-            - field:
-                name: name
-                dataType: string
-            - field:
-                name: price
-                dataType: numeric
+        name: document
+        fields:
+          - name: document
+            type: string
+            description: Some name
+            nullabel: true
+          - name: Type
+            type: string
+            description: Type of Document
+            nullabel: true 

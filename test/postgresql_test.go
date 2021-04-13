@@ -1,87 +1,53 @@
 package test
 
 import (
-	"encoding/json"
+	"bytes"
 	"fmt"
 	"log"
 	"testing"
 
+	"github.com/lhsribas/P6TDB/commands"
 	"github.com/lhsribas/P6TDB/model"
 	"gopkg.in/yaml.v2"
 )
 
 var dataYaml = `
 database:
-  kind: oracle
+  kind: postgresql
   schema:
     name: db02
     tables:
       - table:
-          name: monthly_savings
-          fields:
-            - field:
-                name: name
-                dataType: string
-            - field:
-                name: price
-                dataType: numeric
+        name: person
+        fields:
+          - name: name
+            type: string
+            description: Some name
+            nullabel: true
+          - name: age
+            type: int
+            description: Age Person
+            nullabel: true
+          - name: person_id
+            type: PK
+            description: PK
+            nullabel: false
       - table:
-          name: day_savings
-          fields:
-            - field:
-                name: name
-                dataType: string
-            - field:
-                name: price
-                dataType: numeric
-`
-var dataJson = `
-{
-    "database" : {
-        "kind": "oracle",
-        "schema" : {
-            "name" : "db02",
-            "tables" : [
-                {
-                    "table" : {
-                        "name": "monthly_savings",
-                        "fields": [ 
-                            
-                            {
-                                "field" : {"name": "name", "dataType": "string"}
-                            },
-                            {
-                                "field" : {"name": "price", "dataType": "numeric"}
-                            }
-                            
-                        ]
-                    } 
-                } ,
-                {
-                    "table" : {
-                        "name": "day_savings",
-                        "fields": [ 
-                            
-                            {
-                                "field" : {"name": "name", "dataType": "string"}
-                            },
-                            {
-                                "field" : {"name": "price", "dataType": "numeric"}
-                            }
-                            
-                        ]
-                        
-                    } 
-                } 
-            ]
-        }
-    }
-}
+        name: document
+        fields:
+          - name: document
+            type: string
+            description: Some name
+            nullabel: true
+          - name: Type
+            type: string
+            description: Type of Document
+            nullabel: true 
 `
 
 func TestYamlCreateSchema(t *testing.T) {
 
-	db := model.Engine{}
+	db := model.Yaml2Go{}
 
 	err := yaml.Unmarshal([]byte(dataYaml), &db)
 
@@ -89,19 +55,44 @@ func TestYamlCreateSchema(t *testing.T) {
 		log.Fatalf("error: %v", err)
 	}
 
-	fmt.Printf("--- t:\n%v\n\n", db)
+	var buffer bytes.Buffer
 
-}
+	tables := db.Database.Schema.Tables
 
-func TestJsonCreateSchema(t *testing.T) {
+	for _, v := range tables {
 
-	db := model.Engine{}
+		buffer.WriteString(commands.CREATE_TABLE)
+		buffer.WriteString(" ")
+		buffer.WriteString(commands.EXIST)
+		buffer.WriteString(" ")
+		buffer.WriteString(v.Name)
+		buffer.WriteString(" ")
+		buffer.WriteString("{")
 
-	err := json.Unmarshal([]byte(dataJson), &db)
+		for _, f := range v.Fields {
 
-	if err != nil {
-		log.Fatalf("error: %v", err)
+			buffer.WriteString("\n")
+			buffer.WriteString(f.Name)
+
+			if f.Type == "PK" || f.Type == "pk" {
+				buffer.WriteString(" PRIMARY KEY")
+			}
+
+			if f.Nullabel {
+				buffer.WriteString(" NULL")
+			} else {
+				buffer.WriteString(" NOT NULL")
+			}
+		}
+
+		buffer.WriteString("\n")
+
+		buffer.WriteString("}")
+
+		buffer.WriteString("\n")
+
 	}
 
-	fmt.Printf("--- t:\n%v\n\n", db)
+	//fmt.Printf("--- t:\n%v\n\n", db)
+	fmt.Println(buffer.String())
 }

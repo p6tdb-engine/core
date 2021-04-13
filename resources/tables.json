@@ -1,7 +1,0 @@
-{
-    "tables" : [
-        {
-            "table" : {"name": "merchant"} 
-        } 
-    ]
-}
